@@ -1,0 +1,13 @@
+{
+  "include": [
+    "**/*.ts",
+    "books.spec.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}
