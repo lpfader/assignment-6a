@@ -25,6 +25,8 @@ The adapter sends an X-Book-Filters header whenever filters are applied, and ngi
 
 Used eslint and then created .prettierignore and .prettiercc since running prettier would add unnecessary characters.
 
+Ran ESLint and prettier. Prettier edited every single file. I'm hoping nothing broke.
+
 Deepseek told me to test bypassing for filter requests:
 curl -s -o /dev/null -D - -X POST http://localhost:8080/api/books/list \
   -H 'X-Book-Filters: 1' -H 'Content-Type: application/json' \
