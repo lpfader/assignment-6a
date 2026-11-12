@@ -8,13 +8,13 @@ import createOrUpdateBook from './create_or_update'
 @Route('books')
 export class BooksRoutes extends Controller {
   @Post('list')
-  public async listBooks (@Body() filters: Filter[], @Request() request: koa.Request): Promise<Book[]> {
+  public async listBooks(@Body() filters: Filter[], @Request() request: koa.Request): Promise<Book[]> {
     const ctx: koa.ParameterizedContext<AppBookDatabaseState, koa.DefaultContext> = request.ctx
     return await listBooks(ctx.state.books, filters)
   }
 
   @Post()
-  public async createOrUpdateBook (@Body() book: Book, @Request() request: koa.Request): Promise<{ id: BookID }> {
+  public async createOrUpdateBook(@Body() book: Book, @Request() request: koa.Request): Promise<{ id: BookID }> {
     const ctx: koa.ParameterizedContext<AppBookDatabaseState, koa.DefaultContext> = request.ctx
     const result = await createOrUpdateBook(book, ctx.state.books)
 

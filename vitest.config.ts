@@ -8,7 +8,5 @@ export default defineConfig({
     globalSetup: ['./global_database_install.ts'],
     watchExclude: ['build/**', 'client/**']
   },
-  plugins: [
-    vitestOpenapiPlugin
-  ]
+  plugins: [vitestOpenapiPlugin]
 })

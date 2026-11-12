@@ -16,7 +16,7 @@ export type ShelfId = string
 /**
  * An array listing how many copies of each book are taken from a given shelf while fulfilling an order
  */
-export type FulfilledBooks = Array<{ book: BookID, shelf: ShelfId, numberOfBooks: number }>
+export type FulfilledBooks = Array<{ book: BookID; shelf: ShelfId; numberOfBooks: number }>
 
 /**
  * An array listing all the books ordered by Id. Multiple copies of a book are listed as duplicate IDs
@@ -28,8 +28,8 @@ export type OrderPlacement = BookID[]
  */
 export interface Order {
   /**
-     * The order's unique id
-     */
+   * The order's unique id
+   */
   orderId: OrderId
   /**
    * A dictionary of book id's matching the number of copies of each book requested for the order
@@ -51,4 +51,4 @@ export interface Filter {
   to?: number
   name?: string
   author?: string
-};
+}

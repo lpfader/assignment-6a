@@ -1,8 +1,5 @@
 {
-  "include": [
-    "**/*.ts",
-    "books.spec.ts"
-  ],
+  "include": ["**/*.ts", "books.spec.ts"],
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./",

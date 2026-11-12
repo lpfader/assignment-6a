@@ -1,11 +1,16 @@
 import { type ShelfId, type BookID } from '../../adapter/assignment-4'
 import { InMemoryWarehouse, type WarehouseData } from './warehouse_data'
 
-export async function placeBooksOnShelf (data: WarehouseData, bookId: BookID, numberOfBooks: number, shelf: ShelfId): Promise<void> {
+export async function placeBooksOnShelf(
+  data: WarehouseData,
+  bookId: BookID,
+  numberOfBooks: number,
+  shelf: ShelfId
+): Promise<void> {
   if (numberOfBooks < 0) {
     throw new Error("Can't place less than 0 books on a shelf")
   }
-  const current = await data.getCopiesOnShelf(bookId, shelf) ?? 0
+  const current = (await data.getCopiesOnShelf(bookId, shelf)) ?? 0
   await data.placeBookOnShelf(bookId, shelf, current + numberOfBooks)
 }
 
@@ -31,6 +36,8 @@ if (import.meta.vitest !== undefined) {
   test('placing a negative number of books throws an error', async () => {
     const data = new InMemoryWarehouse()
 
-    await expect(async () => { await placeBooksOnShelf(data, 'my_book', -1, 'my_shelf') }).rejects.toThrowError(/less than 0/)
+    await expect(async () => {
+      await placeBooksOnShelf(data, 'my_book', -1, 'my_shelf')
+    }).rejects.toThrowError(/less than 0/)
   })
 }

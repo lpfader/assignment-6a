@@ -12,7 +12,13 @@ import { type Server, type IncomingMessage, type ServerResponse } from 'http'
 import { type AppBookDatabaseState, getBookDatabase } from './src/database_access'
 import { type AppWarehouseDatabaseState, getDefaultWarehouseDatabase } from './src/warehouse/warehouse_database'
 
-export default async function (port?: number, randomizeDbs?: boolean): Promise<{ server: Server<typeof IncomingMessage, typeof ServerResponse>, state: AppBookDatabaseState & AppWarehouseDatabaseState }> {
+export default async function (
+  port?: number,
+  randomizeDbs?: boolean
+): Promise<{
+  server: Server<typeof IncomingMessage, typeof ServerResponse>
+  state: AppBookDatabaseState & AppWarehouseDatabaseState
+}> {
   const bookDb = getBookDatabase(randomizeDbs === true ? undefined : 'mcmasterful-books')
   const warehouseDb = await getDefaultWarehouseDatabase(randomizeDbs === true ? undefined : 'mcmasterful-warehouse')
 
@@ -46,15 +52,16 @@ export default async function (port?: number, randomizeDbs?: boolean): Promise<{
   RegisterRoutes(koaRouter)
 
   app.use(koaRouter.routes())
-  app.use(koaSwagger({
-    routePrefix: '/docs',
-    specPrefix: '/docs/spec',
-    exposeSpec: true,
-    swaggerOptions: {
-      spec: swagger
-    }
-
-  }))
+  app.use(
+    koaSwagger({
+      routePrefix: '/docs',
+      specPrefix: '/docs/spec',
+      exposeSpec: true,
+      swaggerOptions: {
+        spec: swagger
+      }
+    })
+  )
   return {
     server: app.listen(port, () => {
       console.log('listening')

@@ -5,7 +5,7 @@ import { type ZodRouter } from 'koa-zod-router'
 import { ObjectId } from 'mongodb'
 import { generateId, seedBookDatabase } from '../../database_test_utilities'
 
-async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {
+async function getBook(id: BookID, { books }: BookDatabaseAccessor): Promise<Book | false> {
   if (id.length !== 24) {
     console.error('Failed with id: ', id)
     return false
@@ -25,7 +25,7 @@ async function getBook (id: BookID, { books }: BookDatabaseAccessor): Promise<Bo
   return book
 }
 
-export default function getBookRoute (router: ZodRouter, books: BookDatabaseAccessor): void {
+export default function getBookRoute(router: ZodRouter, books: BookDatabaseAccessor): void {
   router.register({
     name: 'get book',
     method: 'get',

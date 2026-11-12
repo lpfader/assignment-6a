@@ -3,14 +3,22 @@ import { type ShelfId, type Book, type BookID, type OrderId } from './adapter/as
 import { type BookDatabaseAccessor } from './src/database_access'
 import { type WarehouseDatabaseAccessor } from './src/warehouse/warehouse_database'
 
-export async function seedBookDatabase (accessor: BookDatabaseAccessor, { books }: { books: Record<BookID, Book> }): Promise<void> {
-  await Promise.all(Object.keys(books).map(async (id) => {
-    const objectId = ObjectId.createFromHexString(id)
-    return await accessor.books.insertOne({ ...books[id], _id: objectId, id })
-  }))
+export async function seedBookDatabase(
+  accessor: BookDatabaseAccessor,
+  { books }: { books: Record<BookID, Book> }
+): Promise<void> {
+  await Promise.all(
+    Object.keys(books).map(async (id) => {
+      const objectId = ObjectId.createFromHexString(id)
+      return await accessor.books.insertOne({ ...books[id], _id: objectId, id })
+    })
+  )
 }
 
-export async function seedWarehouseDatabase (accessor: WarehouseDatabaseAccessor, { books, orders }: { books: Record<BookID, Record<ShelfId, number>>, orders: Record<OrderId, Record<BookID, number>> }): Promise<void> {
+export async function seedWarehouseDatabase(
+  accessor: WarehouseDatabaseAccessor,
+  { books, orders }: { books: Record<BookID, Record<ShelfId, number>>; orders: Record<OrderId, Record<BookID, number>> }
+): Promise<void> {
   await Promise.all([
     ...Object.keys(books).flatMap(async (book) => {
       const shelves = books[book]
@@ -26,7 +34,7 @@ export async function seedWarehouseDatabase (accessor: WarehouseDatabaseAccessor
   ])
 }
 
-export function generateId<T> (): T {
+export function generateId<T>(): T {
   const id = new ObjectId()
-  return (id.toHexString()) as T
+  return id.toHexString() as T
 }

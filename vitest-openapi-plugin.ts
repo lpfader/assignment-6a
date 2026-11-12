@@ -5,7 +5,7 @@ import child_process from 'node:child_process'
 // the "exec" function runs a shell command as a child process, and returns the output of that command
 const exec = util.promisify(child_process.exec)
 
-async function generateOpenApi (): Promise<void> {
+async function generateOpenApi(): Promise<void> {
   try {
     console.log('Generating OpenAPI')
     // we're calling our shell script here - but we don't really care about it's return values
@@ -18,14 +18,16 @@ async function generateOpenApi (): Promise<void> {
 // We want to keep track of whether the generation has finished, and the currently active promise we can wait on.
 // keeping these within a const ensures we don't accidentally refer to an older promise, in case
 // multiple file changes cause the openapi generation to trigger in sequence
-const openApiReady: { promise: Promise<void>, ready: boolean } = { ready: false, promise: generateOpenApi() }
+const openApiReady: { promise: Promise<void>; ready: boolean } = { ready: false, promise: generateOpenApi() }
 
 // We are exporting a vite plugin - since vitest just runst vite plugins under the hood
-export default
-{
+export default {
   name: 'OpenApi Generation Plugin',
   // when the build starts, we want to wait until the initial generation of our client and routes is comeplete
-  buildStart: async () => { await openApiReady.promise; openApiReady.ready = true },
+  buildStart: async () => {
+    await openApiReady.promise
+    openApiReady.ready = true
+  },
   // whenever vitest tries to load a file, we want it to wait until there isn't an actively running generation process
   // and the files are ready
   load: async () => {

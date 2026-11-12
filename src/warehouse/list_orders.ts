@@ -1,7 +1,9 @@
 import { type BookID, type OrderId } from '../../adapter/assignment-4'
 import { InMemoryWarehouse, type WarehouseData } from './warehouse_data'
 
-export async function listOrders (data: WarehouseData): Promise<Array<{ orderId: OrderId, books: Record<BookID, number> }>> {
+export async function listOrders(
+  data: WarehouseData
+): Promise<Array<{ orderId: OrderId; books: Record<BookID, number> }>> {
   return await data.listOrders()
 }
 

@@ -1,27 +1,39 @@
+# Extension field: the three API replicas are identical, so define them once.
+x-server: &server
+  image: node:20
+  working_dir: /app
+  volumes:
+    - ./:/app
+  command: npx -y tsx ./index.ts
+  depends_on:
+    - mongo
+
 services:
   nginx:
     image: nginx:latest
     ports:
-      - "8080:80"
+      - '8080:80'
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - front-end
-      - server
+      - yi
+      - er
+      - san
 
   front-end:
     image: ghcr.io/mcmastercce/bvd-103-mcmasterful-books/mcmasterful-books-docker:main
     volumes:
       - ./adapter:/source/adapter
 
-  server:
-    image: node:20
-    working_dir: /app
-    volumes:
-      - ./:/app
-    command: npx -y tsx ./index.ts
-    depends_on:
-      - mongo
+  yi:
+    <<: *server
+
+  er:
+    <<: *server
+
+  san:
+    <<: *server
 
   mongo:
     image: mongo:latest

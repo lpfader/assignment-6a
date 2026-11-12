@@ -20,7 +20,7 @@
 
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    
+
     "experimentalDecorators": true,
 
     "esModuleInterop": true,
@@ -28,8 +28,6 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "types": [
-      "vitest/importMeta"
-    ]
+    "types": ["vitest/importMeta"]
   }
 }

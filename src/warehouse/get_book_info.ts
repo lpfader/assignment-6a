@@ -1,7 +1,7 @@
 import { type ShelfId, type BookID } from '../../adapter/assignment-4'
 import { InMemoryWarehouse, type WarehouseData } from './warehouse_data'
 
-export async function getBookInfo (data: WarehouseData, bookId: BookID): Promise<Record<ShelfId, number>> {
+export async function getBookInfo(data: WarehouseData, bookId: BookID): Promise<Record<ShelfId, number>> {
   const copies = await data.getCopies(bookId)
   const response: Record<ShelfId, number> = {}
 
