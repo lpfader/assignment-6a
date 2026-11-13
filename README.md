@@ -1,9 +1,11 @@
 # McMasterful Books — BVD 103 Assignment 6
 
-Version 1.1.0
+## Version 1.1.0
+
 This is the initial download of Assignment 6 that was cloned to my new github repository at https://github.com/lpfader/assignment-6a/
 
-Version 1.2.0
+## Version 1.2.0
+
 hardcoded 11 http://localhost:3000 URLs to become relative /api paths in the /adapter/ folder.
 
 Added Docker-in-Docker to the devcontainer.json leading to a full container rebuild, lol. Now Docker Desktop runs the dev container — the inner daemon runs nginx, front-end, server and mongo.
@@ -14,7 +16,8 @@ Created nginx.conf: / proxies to the front-end, /api/ proxies to the server with
 
 index.ts avoids a top-level await using async instead of await, so it starts on the node:20 image.
 
-Version 1.3.0
+## Version 1.3.0
+
 Added two more API replicas named yi, er and san in docker-compose.yaml, defined once with a YAML anchor, and set up round-robin load balancing between them with an nginx upstream block.
 
 Added proxy caching to nginx.conf for the front-end, book details. Everything else under /api/ stays uncached. Nginx now keeps a local copy of the answer.
@@ -28,16 +31,25 @@ Used eslint and then created .prettierignore and .prettiercc since running prett
 Ran ESLint and prettier. Prettier edited every single file. I'm hoping nothing broke.
 
 Deepseek told me to test bypassing for filter requests:
+
+```bash
 curl -s -o /dev/null -D - -X POST http://localhost:8080/api/books/list \
   -H 'X-Book-Filters: 1' -H 'Content-Type: application/json' \
   -d '[{"name":"crichton"}]' | grep -i x-cache
+```
 
-V1.4.0
+## V1.4.0
 
 I have decided to no longer use prettier for this assignment since Lint is all I need if functionality is assured. Goodbye .prettierignore and .prettiercc!
 
-V2
-I'm calling this V2 because it is complete. Client-side filtering and order placement functions because I have tested it using my own book database. 
+## V2
 
-V2.0.1
+I'm calling this V2 because it is complete. Client-side filtering and order placement functions because I have tested it using my own book database.
+
+## V2.0.1
+
 The final not complete because invisible characters were messing with the exact text bash passed to the programs and git doesn't like tha.
+
+## V2.0.2
+
+Edited the readme formatting.
