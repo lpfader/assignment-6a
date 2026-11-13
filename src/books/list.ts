@@ -1,6 +1,12 @@
 import { type Book, type Filter } from '../../adapter/assignment-4'
 import { type BookDatabaseAccessor } from '../database_access'
 
+// Escape regex metacharacters so search text is matched literally. Without
+// this, input like "(" builds an invalid regex and mongo throws.
+function escapeRegex (text: string): string {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 export default async function listBooks (books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
   const { books: bookCollection } = books
 
@@ -29,10 +35,10 @@ export default async function listBooks (books: BookDatabaseAccessor, filters: F
               filter.price = { ...(filter.price ?? {}), $lte: to }
             }
             if (typeof name === 'string') {
-              filter.name = { $regex: name.toLowerCase(), $options: 'ix' }
+              filter.name = { $regex: escapeRegex(name.toLowerCase()), $options: 'i' }
             }
             if (typeof author === 'string') {
-              filter.author = { $regex: author.toLowerCase(), $options: 'ix' }
+              filter.author = { $regex: escapeRegex(author.toLowerCase()), $options: 'i' }
             }
             return filter
           })

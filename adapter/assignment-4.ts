@@ -1,4 +1,5 @@
 import previous_assignment from './assignment-3'
+import { errorFromResponse } from './errors'
 
 export type BookID = string
 
@@ -45,7 +46,7 @@ async function listBooks (filters?: Filter[]): Promise<Book[]> {
     // And if it is valid, we parse the JSON result and return it.
     return (await result.json()) as Book[]
   } else {
-    throw new Error('Failed to fetch books')
+    throw await errorFromResponse('Failed to fetch books', result)
   }
 }
 
@@ -62,7 +63,7 @@ async function lookupBookById (book: BookID): Promise<Book> {
   if (result.ok) {
     return (await result.json()) as Book
   } else {
-    throw new Error('Couldnt Find Book')
+    throw await errorFromResponse('Could not find book', result)
   }
 }
 
@@ -72,7 +73,7 @@ export type OrderId = string
 async function placeBooksOnShelf (bookId: BookID, numberOfBooks: number, shelf: ShelfId): Promise<void> {
   const result = await fetch(`/api/warehouse/${bookId}/${shelf}/${numberOfBooks}`, { method: 'put' })
   if (!result.ok) {
-    throw new Error('Couldnt Place on Shelf')
+    throw await errorFromResponse('Could not place books on shelf', result)
   }
 }
 
@@ -83,7 +84,7 @@ async function orderBooks (order: BookID[]): Promise<{ orderId: OrderId }> {
     body: JSON.stringify({ order })
   })
   if (!result.ok) {
-    throw new Error('Couldnt Place on Shelf')
+    throw await errorFromResponse('Could not place order', result)
   }
   return { orderId: await result.text() }
 }
@@ -101,7 +102,7 @@ async function findBookOnShelf (book: BookID): Promise<Array<{ shelf: ShelfId, c
     }
     return shelfArray
   } else {
-    throw new Error('Couldnt Find Book')
+    throw await errorFromResponse('Could not find book on shelf', result)
   }
 }
 
@@ -115,7 +116,7 @@ async function fulfilOrder (
     body: JSON.stringify({ booksFulfilled })
   })
   if (!result.ok) {
-    throw new Error(`Couldnt Fulfil ${await result.text()}`)
+    throw await errorFromResponse('Could not fulfil order', result)
   }
 }
 
@@ -124,7 +125,7 @@ async function listOrders (): Promise<Array<{ orderId: OrderId, books: Record<Bo
   if (result.ok) {
     return (await result.json()) as Array<{ orderId: OrderId, books: Record<BookID, number> }>
   } else {
-    throw new Error('Couldnt Find Book')
+    throw await errorFromResponse('Could not list orders', result)
   }
 }
 

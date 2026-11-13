@@ -1,4 +1,5 @@
 import previous_assignment from './assignment-1'
+import { errorFromResponse } from './errors'
 
 export type BookID = string
 
@@ -28,7 +29,7 @@ async function createOrUpdateBook (book: Book): Promise<BookID> {
     const res = (await result.json()) as { id: BookID }
     return res.id
   } else {
-    throw new Error('Failed to create or update book')
+    throw await errorFromResponse('Failed to create or update book', result)
   }
 }
 
@@ -36,7 +37,7 @@ async function removeBook (book: BookID): Promise<void> {
   const result = await fetch(`/api/books/${book}`, { method: 'DELETE' })
 
   if (!result.ok) {
-    throw new Error('Failed to create or update book')
+    throw await errorFromResponse('Failed to remove book', result)
   }
 }
 
