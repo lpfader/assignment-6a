@@ -6,16 +6,16 @@ import { generateId, seedWarehouseDatabase } from '../../database_test_utilities
 
 export interface WarehouseDatabaseAccessor {
   database: Db
-  books: Collection<{ book: BookID; shelf: ShelfId; count: number }>
+  books: Collection<{ book: BookID, shelf: ShelfId, count: number }>
   orders: Collection<{ books: Record<BookID, number> }>
 }
 export interface AppWarehouseDatabaseState {
   warehouse: WarehouseData
 }
 
-export async function getWarehouseDatabase(dbName?: string): Promise<WarehouseDatabaseAccessor> {
+export async function getWarehouseDatabase (dbName?: string): Promise<WarehouseDatabaseAccessor> {
   const database = client.db(dbName ?? Math.floor(Math.random() * 100000).toPrecision())
-  const books = database.collection<{ book: BookID; shelf: ShelfId; count: number }>('books')
+  const books = database.collection<{ book: BookID, shelf: ShelfId, count: number }>('books')
   await books.createIndex({ book: 1, shelf: 1 }, { unique: true })
   const orders = database.collection<{ books: Record<BookID, number> }>('orders')
 
@@ -29,20 +29,20 @@ export async function getWarehouseDatabase(dbName?: string): Promise<WarehouseDa
 export class DatabaseWarehouse implements WarehouseData {
   accessor: WarehouseDatabaseAccessor
 
-  constructor(accessor: WarehouseDatabaseAccessor) {
+  constructor (accessor: WarehouseDatabaseAccessor) {
     this.accessor = accessor
   }
 
-  async placeBookOnShelf(book: string, shelf: string, count: number): Promise<void> {
+  async placeBookOnShelf (book: string, shelf: string, count: number): Promise<void> {
     await this.accessor.books.findOneAndReplace({ book, shelf }, { book, shelf, count }, { upsert: true })
   }
 
-  async getCopiesOnShelf(book: string, shelf: string): Promise<number> {
+  async getCopiesOnShelf (book: string, shelf: string): Promise<number> {
     const result = await this.accessor.books.findOne({ book, shelf })
     return result !== null ? result.count : 0
   }
 
-  async getCopies(book: string): Promise<Record<ShelfId, number>> {
+  async getCopies (book: string): Promise<Record<ShelfId, number>> {
     const result = this.accessor.books.find({ book })
     const copies: Record<ShelfId, number> = {}
 
@@ -57,16 +57,16 @@ export class DatabaseWarehouse implements WarehouseData {
     return copies
   }
 
-  async getOrder(order: OrderId): Promise<Record<BookID, number> | false> {
+  async getOrder (order: OrderId): Promise<Record<BookID, number> | false> {
     const result = await this.accessor.orders.findOne({ _id: ObjectId.createFromHexString(order) })
     return result !== null ? result.books : false
   }
 
-  async removeOrder(order: OrderId): Promise<void> {
+  async removeOrder (order: OrderId): Promise<void> {
     await this.accessor.orders.deleteOne({ _id: ObjectId.createFromHexString(order) })
   }
 
-  async listOrders(): Promise<Array<{ orderId: OrderId; books: Record<BookID, number> }>> {
+  async listOrders (): Promise<Array<{ orderId: OrderId, books: Record<BookID, number> }>> {
     const result = await this.accessor.orders.find().toArray()
 
     return result.map(({ _id, books }) => {
@@ -74,7 +74,7 @@ export class DatabaseWarehouse implements WarehouseData {
     })
   }
 
-  async placeOrder(books: Record<string, number>): Promise<OrderId> {
+  async placeOrder (books: Record<string, number>): Promise<OrderId> {
     const result = await this.accessor.orders.insertOne({ books })
     return result.insertedId.toHexString()
   }
@@ -166,7 +166,7 @@ if (import.meta.vitest !== undefined) {
   })
 }
 
-export async function getDefaultWarehouseDatabase(name?: string): Promise<WarehouseData> {
+export async function getDefaultWarehouseDatabase (name?: string): Promise<WarehouseData> {
   const db = await getWarehouseDatabase(name)
   return new DatabaseWarehouse(db)
 }

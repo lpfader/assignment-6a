@@ -11,11 +11,11 @@ export interface Book {
   image: string
 }
 
-async function listBooks(filters?: Array<{ from?: number; to?: number }>): Promise<Book[]> {
+async function listBooks (filters?: Array<{ from?: number, to?: number }>): Promise<Book[]> {
   return await previous_assignment.listBooks(filters)
 }
 
-async function createOrUpdateBook(book: Book): Promise<BookID> {
+async function createOrUpdateBook (book: Book): Promise<BookID> {
   const result = await fetch('/api/books', {
     method: 'POST',
     body: JSON.stringify(book),
@@ -32,7 +32,7 @@ async function createOrUpdateBook(book: Book): Promise<BookID> {
   }
 }
 
-async function removeBook(book: BookID): Promise<void> {
+async function removeBook (book: BookID): Promise<void> {
   const result = await fetch(`/api/books/${book}`, { method: 'DELETE' })
 
   if (!result.ok) {

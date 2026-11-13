@@ -1,7 +1,7 @@
 import { type Book, type Filter } from '../../adapter/assignment-4'
 import { type BookDatabaseAccessor } from '../database_access'
 
-export default async function listBooks(books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
+export default async function listBooks (books: BookDatabaseAccessor, filters: Filter[]): Promise<Book[]> {
   const { books: bookCollection } = books
 
   const validFilters =
@@ -18,9 +18,9 @@ export default async function listBooks(books: BookDatabaseAccessor, filters: Fi
       ? {
           $or: validFilters.map(({ from, to, name, author }) => {
             const filter: {
-              price?: { $gte?: number; $lte?: number }
-              name?: { $regex: string; $options: string }
-              author?: { $regex: string; $options: string }
+              price?: { $gte?: number, $lte?: number }
+              name?: { $regex: string, $options: string }
+              author?: { $regex: string, $options: string }
             } = {}
             if (typeof from === 'number') {
               filter.price = { $gte: from }

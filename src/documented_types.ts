@@ -16,7 +16,7 @@ export type ShelfId = string
 /**
  * An array listing how many copies of each book are taken from a given shelf while fulfilling an order
  */
-export type FulfilledBooks = Array<{ book: BookID; shelf: ShelfId; numberOfBooks: number }>
+export type FulfilledBooks = Array<{ book: BookID, shelf: ShelfId, numberOfBooks: number }>
 
 /**
  * An array listing all the books ordered by Id. Multiple copies of a book are listed as duplicate IDs

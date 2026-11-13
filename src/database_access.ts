@@ -22,7 +22,7 @@ export interface AppBookDatabaseState {
   books: BookDatabaseAccessor
 }
 
-export function getBookDatabase(dbName?: string): BookDatabaseAccessor {
+export function getBookDatabase (dbName?: string): BookDatabaseAccessor {
   const database = client.db(
     dbName ??
       Math.floor(Math.random() * 100000)

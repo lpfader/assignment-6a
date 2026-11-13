@@ -6,7 +6,7 @@ export interface Book {
   image: string
 }
 
-async function listBooks(filters?: Array<{ from?: number; to?: number }>): Promise<Book[]> {
+async function listBooks (filters?: Array<{ from?: number, to?: number }>): Promise<Book[]> {
   // We want to generate the query string to match the format expected by qs: https://www.npmjs.com/package/qs
   const query =
     filters

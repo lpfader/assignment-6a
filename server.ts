@@ -16,9 +16,9 @@ export default async function (
   port?: number,
   randomizeDbs?: boolean
 ): Promise<{
-  server: Server<typeof IncomingMessage, typeof ServerResponse>
-  state: AppBookDatabaseState & AppWarehouseDatabaseState
-}> {
+    server: Server<typeof IncomingMessage, typeof ServerResponse>
+    state: AppBookDatabaseState & AppWarehouseDatabaseState
+  }> {
   const bookDb = getBookDatabase(randomizeDbs === true ? undefined : 'mcmasterful-books')
   const warehouseDb = await getDefaultWarehouseDatabase(randomizeDbs === true ? undefined : 'mcmasterful-warehouse')
 

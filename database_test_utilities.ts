@@ -3,7 +3,7 @@ import { type ShelfId, type Book, type BookID, type OrderId } from './adapter/as
 import { type BookDatabaseAccessor } from './src/database_access'
 import { type WarehouseDatabaseAccessor } from './src/warehouse/warehouse_database'
 
-export async function seedBookDatabase(
+export async function seedBookDatabase (
   accessor: BookDatabaseAccessor,
   { books }: { books: Record<BookID, Book> }
 ): Promise<void> {
@@ -15,12 +15,14 @@ export async function seedBookDatabase(
   )
 }
 
-export async function seedWarehouseDatabase(
+export async function seedWarehouseDatabase (
   accessor: WarehouseDatabaseAccessor,
-  { books, orders }: { books: Record<BookID, Record<ShelfId, number>>; orders: Record<OrderId, Record<BookID, number>> }
+  { books, orders }: { books: Record<BookID, Record<ShelfId, number>>, orders: Record<OrderId, Record<BookID, number>> }
 ): Promise<void> {
   await Promise.all([
-    ...Object.keys(books).flatMap(async (book) => {
+    // Note: not async — returning the array of insert promises lets flatMap
+    // flatten them into Promise.all above, so the inserts are actually awaited.
+    ...Object.keys(books).flatMap((book) => {
       const shelves = books[book]
 
       return Object.keys(shelves).map(async (shelf) => {
@@ -34,7 +36,7 @@ export async function seedWarehouseDatabase(
   ])
 }
 
-export function generateId<T>(): T {
+export function generateId<T> (): T {
   const id = new ObjectId()
   return id.toHexString() as T
 }

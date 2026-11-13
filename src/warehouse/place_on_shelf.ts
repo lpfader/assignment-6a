@@ -1,7 +1,7 @@
 import { type ShelfId, type BookID } from '../../adapter/assignment-4'
 import { InMemoryWarehouse, type WarehouseData } from './warehouse_data'
 
-export async function placeBooksOnShelf(
+export async function placeBooksOnShelf (
   data: WarehouseData,
   bookId: BookID,
   numberOfBooks: number,

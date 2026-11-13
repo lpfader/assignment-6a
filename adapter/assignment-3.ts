@@ -20,7 +20,7 @@ export interface Filter {
 
 // If multiple filters are provided, any book that matches at least one of them should be returned
 // Within a single filter, a book would need to match all the given conditions
-async function listBooks(filters?: Filter[]): Promise<Book[]> {
+async function listBooks (filters?: Filter[]): Promise<Book[]> {
   const query =
     filters
       ?.map(({ from, to, name, author }, index) => {
@@ -52,11 +52,11 @@ async function listBooks(filters?: Filter[]): Promise<Book[]> {
   }
 }
 
-async function createOrUpdateBook(book: Book): Promise<BookID> {
+async function createOrUpdateBook (book: Book): Promise<BookID> {
   return await previous_assignment.createOrUpdateBook(book)
 }
 
-async function removeBook(book: BookID): Promise<void> {
+async function removeBook (book: BookID): Promise<void> {
   await previous_assignment.removeBook(book)
 }
 
