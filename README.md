@@ -31,3 +31,13 @@ Deepseek told me to test bypassing for filter requests:
 curl -s -o /dev/null -D - -X POST http://localhost:8080/api/books/list \
   -H 'X-Book-Filters: 1' -H 'Content-Type: application/json' \
   -d '[{"name":"crichton"}]' | grep -i x-cache
+
+V1.4.0
+
+I have decided to no longer use prettier for this assignment since Lint is all I need if functionality is assured. Goodbye .prettierignore and .prettiercc!
+
+V2
+I'm calling this V2 because it is complete. Client-side filtering and order placement functions because I have tested it using my own book database. 
+
+V2.0.1
+The final not complete because invisible characters were messing with the exact text bash passed to the programs and git doesn't like tha.
